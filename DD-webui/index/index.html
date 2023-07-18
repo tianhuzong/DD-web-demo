@@ -8,7 +8,7 @@
         <meta name="description" content="DeepDanbooru的在线图片评估的demo,可以将png、jpg图片上传，利用算法进行评估，然后将生成的tag返回">
         <meta name="author" content="仙">
         <meta name="email" content="tianhuzong@qq.com">
-        <base target="_blank">
+        <!--base target="_blank"-->
         <script type="text/javascript">
             var originalTitle = document.title;  // 保存原始标题
 
@@ -30,21 +30,201 @@
         <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
         <!--Vue3CDN文件-->
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <!--element组件库-->
-        <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
-        <script src="https://unpkg.com/element-plus/lib/index.full.js"></script>
+        <!-- Import style -->
+        <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+        <!-- Import component library -->
+        <script src="//unpkg.com/element-plus"></script>
+        <style>
+            #dropArea {
+                width: 50%;
+                height: 300px;
+                border: 2px dashed #ccc;
+                border-radius: 5px;
+                text-align: center;
+                padding-top: 80px;
+                font-size: 1.5em;
+                cursor: pointer;
+                display: inline-block; /* 添加此行 */
+                left: 2cm;
+                margin-left: 350px;
+            }
+            /*
+            .button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 4px;
+                background-color: #f4511e;
+                border: none;
+                color: #FFFFFF;
+                text-align: center;
+                font-size: 28px;
+                padding: 20px;
+                width: 200px;
+                transition: all 0.5s;
+                cursor: pointer;
+                margin: 5px;
+            }
+
+                .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                content: '↑';
+                position: absolute;
+                opacity: 0;
+                top: 0;
+                right: -20px;
+                transition: 0.5s;
+            }
+
+                .button:hover span {
+                padding-right: 25px;
+            }
+
+                .button:hover span:after {
+                opacity: 1;
+                right: 0;
+            }
+            */
+        </style>
     </head>
-    <body>
-        <nav class="navbar navbar-expand-sm bg-light">
-            <!-- Links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">图片tag生成</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">关于</a>
-                </li>
-            </ul>
-        </nav>
+    <body style="background-color: #FFF8DC;">
+        <div id="app">
+            <p align="center">
+                <h1 style="text-align: center;">DeepDanbooru图片prompt生成</h1>
+            </p>
+            <p style="text-align: center;">
+                <span>使用deepdanbooru为一个图片生成tag</span>
+                <br />
+                <span>如果你上传的图片不是stable diffusion生成的图片就可以用这个网站生成</span>
+            </p>
+            <div style="margin-left: 350px;width: 690px; ">
+                <img src="#" alt="预览图" id="ylt" style="display: none;width: 100%;height: auto;">
+            </div>
+            <div id="dropArea",align="center">
+                <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="67px" height="67px">
+                    <path fill="currentColor" d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6H544z"></path>
+                </svg>
+                <br />
+                将文件拖到此处或点击上传
+            </div>
+            <br />
+            
+        </div>
+        <!--<button id="upload" class="button" style="vertical-align:middle;margin-left:600px;" ><span>上传图片</span></button>-->
+        <script>
+            //import { ElMessage } from 'element-plus'
+            // 获取拖拽区域元素
+            var dropArea = document.getElementById('dropArea');
+
+            var imgElement = document.getElementById('ylt');
+            // 阻止浏览器默认行为
+            dropArea.addEventListener('dragenter', function(event) {
+            event.preventDefault();
+            });
+
+            dropArea.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            });
+
+            dropArea.addEventListener('drop', function(event) {
+                event.preventDefault();
+
+                var file = event.dataTransfer.files[0];
+                //alert(getFilekuozhanming(file.name))
+                if (!["jpg","png"].includes(getFilekuozhanming(file.name)) ) {
+                    alert("请上传.png或.jpg文件");
+                    return;
+                } else if(file.size > 10485760){
+                    alert("图片不能大于10MB");
+                    return;
+                }
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    imgElement.src = e.target.result;
+                    showElement();
+                }
+                reader.readAsDataURL(file);
+                //var uploadbutton = document.getElementById("upload");
+        
+                uploadFile(file);
+                alert("正在运算中，请稍后……");
+        
+
+            });
+            // 点击上传按钮时触发文件选择对话框
+            dropArea.addEventListener('click', function() {
+                var fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = '.jpg, .png'; // 指定可接受的文件类型
+                fileInput.style.display = 'none';
+
+                fileInput.addEventListener('change', function() {
+                    var file = fileInput.files[0];
+                    //alert(getFilekuozhanming(file.name))
+                    if (!["jpg","png"].includes(getFilekuozhanming(file.name)) ) {
+                        alert("请上传.png或.jpg文件");
+                        return;
+                    } else if(file.size > 10485760){
+                        alert("图片不能大于10MB");
+                        return;
+                    }
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        imgElement.src = e.target.result;
+                        showElement();
+                    }
+                    reader.readAsDataURL(file);
+                    //var uploadbutton = document.getElementById("upload");
+
+                    uploadFile(fileInput.files[0]);
+                    alert("正在运算中，请稍后……");
+                    
+                    
+                })
+                document.body.appendChild(fileInput);
+                fileInput.click();
+                document.body.removeChild(fileInput);
+            });
+
+            // 文件上传函数
+            function uploadFile(file) {
+                var formData = new FormData();
+                formData.append('file', file);
+
+                // 发送文件上传请求，这里省略实际的上传操作
+                // 你可以使用 XMLHttpRequest 或者 fetch API 来发送请求
+
+                // 示例：使用 fetch API
+                fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(function(response) {
+                    console.log('文件上传成功');
+                    // 处理上传成功后的逻辑
+                })
+                .catch(function(error) {
+                    console.error('文件上传失败:', error);
+                    // 处理上传失败后的逻辑
+                });
+            }
+            function getFilekuozhanming(filename) {
+                return filename.split('.').pop();
+            }
+            function showElement() {
+                var element = document.getElementById('ylt');
+                element.style.display = 'block';
+            }
+            function hideElement() {
+                var element = document.getElementById('ylt');
+                element.style.display = 'none';
+            }
+        </script>
     </body>
 </html>
