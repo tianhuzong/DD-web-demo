@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <title>AI自动生成图片tag</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="robots" content="max-image-preview:large">
+        <meta name="keyword" content="AItag,AI打tag,AI自动生成图片tag,AI打图片tag,DeepDanbooru,deepdanbooru,webui,tianhu,tianhuzong,thz,天狐宗">
+        <meta name="description" content="DeepDanbooru的在线图片评估的demo,可以将png、jpg图片上传，利用算法进行评估，然后将生成的tag返回">
+        <meta name="author" content="仙">
+        <meta name="email" content="tianhuzong@qq.com">
+        <base target="_blank">
+        <script type="text/javascript">
+            var originalTitle = document.title;  // 保存原始标题
+
+            document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'hidden') {
+                // 页面离开时改变标题
+                document.title = '别走嘛，回来嘛';
+            } else {
+                // 页面回来时还原标题
+                document.title = originalTitle;
+            }
+            });
+        </script>
+        <!-- 新 Bootstrap5 核心 CSS 文件 -->
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+        <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+        <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+        <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+        <!--Vue3CDN文件-->
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <!--element组件库-->
+        <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
+        <script src="https://unpkg.com/element-plus/lib/index.full.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm bg-light">
+            <!-- Links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">图片tag生成</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">关于</a>
+                </li>
+            </ul>
+        </nav>
+    </body>
+</html>

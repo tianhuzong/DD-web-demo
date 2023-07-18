@@ -1,0 +1,17 @@
+.vs/
+.vscode/
+__pycache__/
+/test*
+test.py
+/logs
+/uploads
+/build
+/deepdanbooru.egg-info
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.gif
+*.h5
+*.txt
+*.json
