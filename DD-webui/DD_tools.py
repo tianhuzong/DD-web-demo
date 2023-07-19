@@ -5,7 +5,7 @@ import os
 def get_mark(img_path,model,tags):
     markdict = {}
     for tag,mark in dd.commands.evaluate_image(img_path, model, tags, 0.5):
-        markdict[tag] = mark
+        markdict[tag] = str(mark)
         #print(f"{tag}:{mark}")
     return markdict
 def get_files_in_folder(folder_path):
