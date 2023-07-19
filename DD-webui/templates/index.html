@@ -200,23 +200,26 @@
             function uploadFile(file) {
                 var formData = new FormData();
                 formData.append('file', file);
-
+                $.ajax({url:"/upload",type:"POST",data:formData,processData: false,contentType: false,success:function(response){console.log(response);}})
                 // 发送文件上传请求，这里省略实际的上传操作
                 // 你可以使用 XMLHttpRequest 或者 fetch API 来发送请求
 
                 // 示例：使用 fetch API
+                /*
                 fetch('/upload', {
                     method: 'POST',
                     body: formData
                 })
-                .then(function(response) {
-                    console.log('文件上传成功');
-                    // 处理上传成功后的逻辑
+                .then(response => {
+                    restext = response.text();
+                    
                 })
+                //.then(restext => {console.log(restext)})
                 .catch(function(error) {
                     console.error('文件上传失败:', error);
                     // 处理上传失败后的逻辑
                 });
+                */
             }
             function getFilekuozhanming(filename) {
                 return filename.split('.').pop();
