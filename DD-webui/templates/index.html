@@ -28,12 +28,6 @@
         <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
         <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
         <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
-        <!--Vue3CDN文件-->
-        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <!-- Import style -->
-        <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
-        <!-- Import component library -->
-        <script src="//unpkg.com/element-plus"></script>
         <!--jQuery-->
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js"></script>
         <style>
@@ -200,7 +194,7 @@
             function uploadFile(file) {
                 var formData = new FormData();
                 formData.append('file', file);
-                $.ajax({url:"/upload",type:"POST",data:formData,processData: false,contentType: false,success:function(response){console.log(response);}})
+                $.ajax({url:"/upload",type:"POST",data:formData,processData: false,contentType: false,timeout: 15000,success:function(response){console.log(response);}})
                 // 发送文件上传请求，这里省略实际的上传操作
                 // 你可以使用 XMLHttpRequest 或者 fetch API 来发送请求
 
