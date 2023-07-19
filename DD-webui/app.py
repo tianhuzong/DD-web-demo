@@ -5,7 +5,7 @@ import json
 app = Flask(__name__)
 @app.route("/")
 def index():
-    return render_template("./index/index.html")
+    return render_template("index.html")
 @app.route("/uploda",methods=["POST"])
 def upload():
         # 检查是否有文件被上传

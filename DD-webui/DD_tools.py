@@ -1,6 +1,4 @@
 import deepdanbooru as dd
-import requests
-from bs4 import BeautifulSoup
 import os
 def get_mark(img_path,model,tags):
     markdict = {}
