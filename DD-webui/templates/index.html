@@ -34,6 +34,8 @@
         <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
         <!-- Import component library -->
         <script src="//unpkg.com/element-plus"></script>
+        <!--jQuery-->
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js"></script>
         <style>
             #dropArea {
                 width: 50%;
@@ -102,9 +104,11 @@
                 <span>使用deepdanbooru为一个图片生成tag</span>
                 <br />
                 <span>如果你上传的图片不是stable diffusion生成的图片就可以用这个网站生成</span>
+                <br />
+                <span>图片在运算后会自动删除</span>
             </p>
-            <div style="margin-left: 350px;width: 690px; ">
-                <img src="#" alt="预览图" id="ylt" style="display: none;width: 100%;height: auto;">
+            <div style="margin-left: 350px;width: 690px; display: none;" id="ylt">
+                <img src="#" alt="预览图" style=" width: 100%; height: auto;" id="ylttp">
             </div>
             <div id="dropArea",align="center">
                 <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="67px" height="67px">
@@ -121,8 +125,8 @@
             //import { ElMessage } from 'element-plus'
             // 获取拖拽区域元素
             var dropArea = document.getElementById('dropArea');
-
-            var imgElement = document.getElementById('ylt');
+            //预览图元素
+            var imgElement = document.getElementById('ylttp');
             // 阻止浏览器默认行为
             dropArea.addEventListener('dragenter', function(event) {
             event.preventDefault();
@@ -147,12 +151,13 @@
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     imgElement.src = e.target.result;
-                    showElement();
+                    showElement("ylt");
                 }
                 reader.readAsDataURL(file);
                 //var uploadbutton = document.getElementById("upload");
         
                 uploadFile(file);
+                hideElement("dropArea")
                 alert("正在运算中，请稍后……");
         
 
@@ -177,11 +182,10 @@
                     var reader = new FileReader();
                     reader.onload = function(e) {
                         imgElement.src = e.target.result;
-                        showElement();
+                        showElement("ylt");
                     }
                     reader.readAsDataURL(file);
-                    //var uploadbutton = document.getElementById("upload");
-
+                    hideElement("dropArea");
                     uploadFile(fileInput.files[0]);
                     alert("正在运算中，请稍后……");
                     
@@ -217,13 +221,15 @@
             function getFilekuozhanming(filename) {
                 return filename.split('.').pop();
             }
-            function showElement() {
+            function showElement(id) {
+                $("#"+id).show()
+            }
+            function hideElement(id) {
+                $("#"+id).hide()
+            }
+            function showylt() {
                 var element = document.getElementById('ylt');
                 element.style.display = 'block';
-            }
-            function hideElement() {
-                var element = document.getElementById('ylt');
-                element.style.display = 'none';
             }
         </script>
     </body>
