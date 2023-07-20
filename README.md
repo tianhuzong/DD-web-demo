@@ -70,6 +70,7 @@ docker build -t <镜像名称>. //例如docker build -t ddwebui .
 ```bash
 docker run -p 5000:5000 ddwebui 
 ```
+运行完出现提示了就访问http://127.0.0.1:5000即可
 **5000:5000第一个5000是在你的服务器或电脑上的端口，第二个5000是你在dockerfile中暴露的端口，如果你要修改docker暴露的端口记得要修改app.py的port哦！**
 
 为了要节省生成tag的时间，我在源代码一开始运行的时候就加载了一遍与训练模型，大约要花7-8秒，不然的话每反推一次tag就得等8秒
@@ -102,6 +103,15 @@ pip install -r requirements.txt
 pip install .
 ```
 运行完可以删除deepdanbooru文件夹和setup.py的文件
-
-
+### 运行主程序
+```bash 
+python app.py
+```
+或者设置环境变量``FLASK_APP=app.py``，然后运行
+```bash
+flask run
+//有写电脑/服务器可能会报错，推荐使用
+python -m flask run
+```
+然后访问http://127.0.0.1:5000
 ，但是我不建议部署在github codespace，因为我在github codespace部署时一直得不到返回值，我看下是因为上传文件的问题，使用codespace部署可能会导致无法上传文件
