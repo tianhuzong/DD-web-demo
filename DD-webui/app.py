@@ -2,8 +2,11 @@ from flask import Flask,render_template,request
 import DD_tools
 import deepdanbooru as dd
 import json
+import base64
+import random
 app = Flask(__name__)
 model = dd.project.load_model_from_project("./model")
+tags = dd.data.load_tags("./model/tags.txt")
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -14,11 +17,25 @@ def upload():
         return 'No file part'
 
     file = request.files['file']
-    yz : int
-    imagepath = "./photo/" + file.filename
+    yz : int =0.5 #生成的标签可信度阈值
+    random.seed()
+    rand = random.randint(7,27053667326596)
+    imagepath = "./photo/" + rand
     file.save(imagepath)
     
-    tags = dd.data.load_tags("./model/tags.txt")
+    markdict : dict = DD_tools.get_mark(imagepath,model,tags,yz,True)
+    return json.dumps(markdict)
+@app.route("/api/upload",methods=["GET","POST"])
+def api_upload():
+    if request.method == "GET":
+        pic_b64 = request.args.get("pic")
+    elif request.method == "POST":
+        pic_b64 = request.form.get("pic")
+    pic_bytes = base64.b64encode(pic_b64)
+    random.seed()
+    rand = random.randint(7,27053667326596)
+    imagepath = "./apiphoto/" + str(rand)
+    yz : int = 0.5 #生成的标签可信度阈值
     markdict : dict = DD_tools.get_mark(imagepath,model,tags,yz,True)
     return json.dumps(markdict)
 if __name__ == "__main__":

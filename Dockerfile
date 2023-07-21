@@ -4,7 +4,10 @@ WORKDIR /DD-webui
 COPY ./DD-webui /DD-webui
 
 # 暴露端口
+#flask程序端口
 EXPOSE 5000
+#uWSGI统计信息端口
+EXPOSE 9191
 # 安装依赖项
 RUN pip install --no-cache-dir -r requirements.txt
 RUN python setup.py install --no-cache-dir
@@ -15,4 +18,4 @@ RUN rm ./setup.py
 # 删除 setup.cfg 文件
 RUN rm ./setup.cfg
 ENV FLASK_APP=app.py
-CMD [ "python","-m","flask","run" ]
+CMD ["uwsgi","--socket","127.0.0.1:5000","--wsgi-file","app.py","--callable","app","--processes","4","--threads","2","--stats","127.0.0.1:9191"]

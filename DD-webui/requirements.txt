@@ -8,3 +8,4 @@ six>=1.13.0
 flask
 requests
 beautifulsoup4
+uwsgi
