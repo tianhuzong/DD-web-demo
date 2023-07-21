@@ -113,5 +113,59 @@ flask run
 //有写电脑/服务器可能会报错，推荐使用
 python -m flask run
 ```
+当你看到以下图片
+![成功的终端图片](redme_pic/local_success.png)
+那就说明你已经成功啦!
 然后访问http://127.0.0.1:5000
+界面大概长这样：
+![成功的网站图片](redme_pic/website_sussess.png)
+因为本人画画并不是很好ui比较捡漏，还请谅解。
+### 部署uWSGI
+你在直接运行flask程序时是不是看到了以下警告：
+![uWSGI-warning](redme_pic/uWSGI_warning.png)
+**本人英文不是很好，我认为要部署WSGI服务器就对了**
+说干就干，我在requirements.txt中已经加入了uwsgi库的安装了，看不懂的可以参考[菜鸟教程-uwsgi](https://www.runoob.com/python3/python-uwsgi.html)
+在docker中我已经部署了uwsgi了，我就不做演示
+#### 方法一：
+在菜鸟教程中，是直接运行一行命令的：
+```bash
+uwsgi --socket 127.0.0.1:Flask端口 --wsgi-file flask文件名 --callable 变量名 --processes 启动进程数 --threads 每个进程的线程数 --stats 127.0.0.1:uWSGI服务器的统计端口号
+```
+例如
+```bash
+uwsgi --socket 127.0.0.1:5000 --wsgi-file app.py --callable app --processes 4 --threads 2 --stats 127.0.0.1:9191
+```
+**我想那个变量名应该是``app=Flask(__name__)``的变量名**
+参数尽量别去调，调参数参考网上的说明
+
+## API调用
+有时候一直要上网站访问，实在是太麻烦了，索性就搞了一个API，但是我没有写什么token还是QPS机制，所以还麻烦各位开发者多多费心了。
+API地址：``你的域名/api/upload``
+与网页上上传的不同的是，这个API支持get和post
+|参数名称|释义|
+|---|---|
+|pic|图片数据，将文件的二进制数据转为base64编码|
+|kuozhanming|文件扩展名，jpg或png，不要带``.``，带了``.``或者释义其他格式会返货{"msg":"error"}
+易语言的用户可以使用``读入文件()``将图片转为字节集数据，再使用精易模块把字节集数据转为base64编码，然后再使用精易模块的``网页_访问S（）``
+python的用户可以使用base64模块
+```python
+import base64
+import requests
+url = "你的域名/api/upload"
+with open("/path/to/image.png",mode="rb") as f:
+    pic = f.read()
+pic_b64 = base64.b64encode(pic).decode()
+data = {
+    pic:pic_b64,
+    kuozhanming : "png"
+}
+res = requests.post(url,data=data)
+#虽然说支持get，但使用post还是比较安全，不会受url长度限制
+```
+**其他语言的用户可以使用[CodeGeeX](https://github.com/THUDM/CodeGeeX)把代码翻译成其他语言**
+
+## 部署web服务器
+在你体验完这个网站后，想要把它暴露到公网以便自己在其他地方使用或者你做了修改想给其他用户使用，那么你可以选择部署web服务器，但前提是你得拥有一台服务器
+nginx是一个比较有名的web服务器，安装也比较简单，可以参考[菜鸟教程-nginx教程](https://www.runoob.com/w3cnote/nginx-install-and-config.html)，部署在云端环境，本人还是推荐使用docker，免得图片上传接口被攻击
+
 ，但是我不建议部署在github codespace，因为我在github codespace部署时一直得不到返回值，我看下是因为上传文件的问题，使用codespace部署可能会导致无法上传文件

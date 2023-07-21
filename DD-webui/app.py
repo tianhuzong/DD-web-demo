@@ -33,6 +33,8 @@ def api_upload():
     elif request.method == "POST":
         pic_b64 = request.form.get("pic")
         geshi = request.form.get("kuozhanming")
+    if geshi not in ["png","jpg"]:
+        return json.dumps({"msg":"error"})
     pic_bytes = base64.b64encode(pic_b64)
     random.seed()
     rand = random.randint(7,27053667326596)
