@@ -29,12 +29,16 @@ def upload():
 def api_upload():
     if request.method == "GET":
         pic_b64 = request.args.get("pic")
+        geshi = request.args.get("kuozhanming")
     elif request.method == "POST":
         pic_b64 = request.form.get("pic")
+        geshi = request.form.get("kuozhanming")
     pic_bytes = base64.b64encode(pic_b64)
     random.seed()
     rand = random.randint(7,27053667326596)
-    imagepath = "./apiphoto/" + str(rand)
+    imagepath = "./apiphoto/" + str(rand) + geshi
+    with open(imagepath,mode="wb") as f:
+        f.write(pic_bytes)
     yz : int = 0.5 #生成的标签可信度阈值
     markdict : dict = DD_tools.get_mark(imagepath,model,tags,yz,True)
     return json.dumps(markdict)
