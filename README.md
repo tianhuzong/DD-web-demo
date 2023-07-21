@@ -207,5 +207,6 @@ http {
 example.com换成你的域名，记得要解析到服务器上哦
 下面location的配置proxy_pass的端口如果你修改了flask的端口也记得去改
 
+修改后去查一查怎么运行吧
 
 ，但是我不建议部署在github codespace，因为我在github codespace部署时一直得不到返回值，我看下是因为上传文件的问题，使用codespace部署可能会导致无法上传文件
