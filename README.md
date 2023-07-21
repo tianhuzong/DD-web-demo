@@ -168,4 +168,44 @@ res = requests.post(url,data=data)
 在你体验完这个网站后，想要把它暴露到公网以便自己在其他地方使用或者你做了修改想给其他用户使用，那么你可以选择部署web服务器，但前提是你得拥有一台服务器
 nginx是一个比较有名的web服务器，安装也比较简单，可以参考[菜鸟教程-nginx教程](https://www.runoob.com/w3cnote/nginx-install-and-config.html)，部署在云端环境，本人还是推荐使用docker，免得图片上传接口被攻击
 
+我们的NGINX就不能使用docker部署了，因为我们前面的docker镜像只能有一个docker基础镜像，没办法使用yum或apt等包管理器，而不同的容器是沙箱隔离的，如果你有办法的话欢迎创建issue讨论。
+### 安装环境
+在Windows安装nginx，因为我的电脑配置不好，承受不了了，就在网上找了教程，大概是这样：
+
+- 下载NGINX安装程序：打开[NGINX的官方网站](https://nginx.org/)，在主页上找到并点击 "Download"（下载）链接。在"Stable version"（稳定版本）下，选择适用于Windows的zip格式的安装文件下载。
+
+- 解压安装文件：将下载的zip文件解压到一个目录.
+
+- 配置NGINX：在解压后的目录中，打开 conf 文件夹，并编辑 nginx.conf 文件来配置NGINX。你可以根据需要进行自定义配置，包括监听端口、处理静态文件的路径等。
+
+- 启动NGINX：打开命令提示符，导航到NGINX安装目录的 sbin 文件夹中，执行命令nginx 来启动NGINX服务。
+
+- 验证安装：打开Web浏览器，输入 http://localhost/ 或者 http://127.0.0.1/ ，如果显示了NGINX的欢迎页面，则表示安装成功。
+
+- 如果你希望关闭NGINX服务，可以在命令提示符中运行 nginx -s stop 或者 nginx -s quit 命令来停止NGINX。
+
+使用Linux的朋友可以前往[菜鸟教程 | Linux-nginx安装](https://www.runoob.com/linux/nginx-install-setup.html)
+
+### 配置nginx
+
+在本地创建个文件夹，里面创建个文件，文件就命名为nginx.conf
+里面的内容这么写：
+```conf
+http {
+    server {
+        listen 80;
+        server_name example.com;
+
+        location / {
+            proxy_pass http://127.0.0.1:5000;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+}
+```
+example.com换成你的域名，记得要解析到服务器上哦
+下面location的配置proxy_pass的端口如果你修改了flask的端口也记得去改
+
+
 ，但是我不建议部署在github codespace，因为我在github codespace部署时一直得不到返回值，我看下是因为上传文件的问题，使用codespace部署可能会导致无法上传文件
