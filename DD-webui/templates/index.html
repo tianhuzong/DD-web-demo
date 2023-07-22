@@ -8,6 +8,7 @@
         <meta name="description" content="DeepDanbooru的在线图片评估的demo,可以将png、jpg图片上传，利用算法进行评估，然后将生成的tag返回">
         <meta name="author" content="仙">
         <meta name="email" content="tianhuzong@qq.com">
+        <base target="_blank">
         <!--base target="_blank"-->
         <script type="text/javascript">
             var originalTitle = document.title;  // 保存原始标题
@@ -44,6 +45,10 @@
                 left: 2cm;
                 margin-left: 350px;
             }
+            a:link {color:#535151;}      /* 未访问链接*/
+            a:visited {color:#535151;}  /* 已访问链接 */
+            a:hover {color:#535151;}  /* 鼠标移动到链接上 */
+            a:active {color:#535151;}  /* 鼠标点击时 */
             /*
             .button {
                 display: flex;
@@ -101,9 +106,7 @@
                 <br />
                 <span>图片在运算后会自动删除</span>
             </p>
-            <div style="margin-left: 350px;width: 690px; display: none;" id="ylt">
-                <img src="#" alt="预览图" style=" width: 100%; height: auto;" id="ylttp">
-            </div>
+            
             <div id="dropArea",align="center">
                 <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="67px" height="67px">
                     <path fill="currentColor" d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6H544z"></path>
@@ -112,7 +115,32 @@
                 将文件拖到此处或点击上传
             </div>
             <br />
-            
+            <div style="margin-left: 350px;width: 690px; display: none;" id="ylt">
+                <img src="#" alt="预览图" style=" width: 100%; height: auto;" id="ylttp">
+            </div>
+            <div style="margin-left: 350px;width: 690px; display: none;" id="TagsMark">
+                <table class="table table-hover">
+                    <thead id="TagsMarkTitle">
+                        <tr>
+                            <th>标签</th>
+                            <th>得分</th>
+                        </tr>
+                    </thead>
+                    <tbody id="TagsMarkBody">
+                        
+                    </tbody>    
+                </table>
+            </div>
+            <div style="margin-left: 350px;width: 690px; display: none;" id="TagsOutput">
+                <textarea rows="1" style="width: 690px" id="Tagsbox" readonly></textarea>
+            </div>
+            <div align="center" id="buttom">
+                <br />
+                <p><span>如果你喜欢的话就在<a href="https://github.com/tianhuzong/DD-web-demo.git">Github</a>上点个star吧</span><br />
+                <span>有问题或者有好的建议的话请在github发<a href="https://github.com/tianhuzong/DD-web-demo/issues">issue</a></span><br />
+                <span><a href="https://github.com/tianhuzong/">Github@tianhuzong</a> | <a href="https://space.bilibili.com/3494354284972407">bilibili</a> | <a href="http://afdian.net/a/thzsen">爱发电</a></span></p>
+                <p>Copyright Sen 2023</p>
+            </div>
         </div>
         <!--<button id="upload" class="button" style="vertical-align:middle;margin-left:600px;" ><span>上传图片</span></button>-->
         <script>
@@ -151,7 +179,10 @@
                 //var uploadbutton = document.getElementById("upload");
         
                 uploadFile(file);
-                hideElement("dropArea")
+                hideElement("dropArea");
+                hideElement("dropArea");
+                hideElement("TagsMark");
+                hideElement("TagsOutput");
                 alert("正在运算中，请稍后……");
         
 
@@ -180,6 +211,8 @@
                     }
                     reader.readAsDataURL(file);
                     hideElement("dropArea");
+                    hideElement("TagsMark");
+                    hideElement("TagsOutput");
                     uploadFile(fileInput.files[0]);
                     alert("正在运算中，请稍后……");
                     
@@ -194,7 +227,45 @@
             function uploadFile(file) {
                 var formData = new FormData();
                 formData.append('file', file);
-                $.ajax({url:"/upload",type:"POST",data:formData,processData: false,contentType: false,timeout: 15000,success:function(response){console.log(response);}})
+                $.ajax(
+                    {url:"/upload",
+                    type:"POST",
+                    data:formData,
+                    processData: false,
+                    contentType: false,
+                    success:function(response){
+                        console.log(response);
+                        var table = document.getElementById("TagsMarkBody");
+                        var mark = JSON.parse(response);
+                        for (let i = 0; i < Object.keys(mark).length; i++) {
+                            var tag = Object.keys(mark)[i];
+                            var tagmark = mark[tag];
+                            var row = document.createElement("tr"); // 创建表格行
+
+                            var cell1 = document.createElement("td"); // 创建第一个单元格
+                            cell1.innerHTML = tag; // 填充单元格内容
+                            row.appendChild(cell1); // 将单元格添加到行中
+
+                            var cell2 = document.createElement("td"); // 创建第二个单元格
+                            cell2.innerHTML = tagmark; // 填充单元格内容
+                            row.appendChild(cell2); // 将单元格添加到行中
+                            table.appendChild(row); // 将行添加到 tbody 中
+                        }
+                        var tags = "";
+                        for (let i = 0; i < Object.keys(mark).length ;i++ ){
+                            if (!["rating:safe","rating:questionable","rating:explicit"].includes( Object.keys(mark)[i])) {
+                                tags += Object.keys(mark)[i]+",";
+                            }
+                        }
+                        $("#Tagsbox").text(tags);
+                        showElement("dropArea");
+                        showElement("TagsMark");
+                        showElement("TagsOutput");
+                    },
+                    error:function(xhr,status,error){
+                        alert("文件上传失败,\n错误码："+status+"\n错误原因："+error);
+                    }
+                });
                 // 发送文件上传请求，这里省略实际的上传操作
                 // 你可以使用 XMLHttpRequest 或者 fetch API 来发送请求
 
