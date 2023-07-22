@@ -10,7 +10,7 @@ tags = dd.data.load_tags("./model/tags.txt")
 @app.route("/")
 def index():
     return render_template("index.html")
-@app.route("/uploda",methods=["POST"])
+@app.route("/upload",methods=["POST"])
 def upload():
         # 检查是否有文件被上传
     if 'file' not in request.files:
