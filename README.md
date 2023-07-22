@@ -124,6 +124,8 @@ python -m flask run
 你在直接运行flask程序时是不是看到了以下警告：
 ![uWSGI-warning](redme_pic/uWSGI_warning.png)
 **本人英文不是很好，我认为要部署WSGI服务器就对了**
+
+**经过测试，Windows貌似不可以使用uwsgi，可以选择使用其他wsgi服务器，不然就乖乖使用docker吧**
 说干就干，我在requirements.txt中已经加入了uwsgi库的安装了，看不懂的可以参考[菜鸟教程-uwsgi](https://www.runoob.com/python3/python-uwsgi.html)
 在docker中我已经部署了uwsgi了，我就不做演示
 #### 方法一：
@@ -209,4 +211,13 @@ example.com换成你的域名，记得要解析到服务器上哦
 
 修改后去查一查怎么运行吧
 
-，但是我不建议部署在github codespace，因为我在github codespace部署时一直得不到返回值，我看下是因为上传文件的问题，使用codespace部署可能会导致无法上传文件
+## 小小吐槽
+
+我不建议部署在github codespace，因为我在github codespace部署时一直得不到返回值，我看下是因为上传文件的问题，使用codespace部署可能会导致无法上传文件
+
+## 结语
+本程序基于Deepdanbooru开发而成
+本人新手上路，可能有什么错误没有，或者测试的还不完全
+如果发现错误的朋友请在issue中提出，谢谢
+
+© 仙 2023
