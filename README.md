@@ -50,7 +50,7 @@ git clone https://gitee.com/thzsen/DD-web-demo.git
 ```
 
 ## 预训练模型下载
-可以在[DD作者的发行版](https://kgithub.com/KichangKim/DeepDanbooru/releases/tag/v3-20211112-sgd-e28)下载，然后把解压后的文件夹里的文件覆盖DD-web-demo/DD-webui/model内的文件。
+可以在[DD作者的发行版](https://github.com/KichangKim/DeepDanbooru/releases/tag/v3-20211112-sgd-e28)下载，然后把解压后的文件夹里的文件覆盖DD-web-demo/DD-webui/model内的文件。
 
 ## 运行程序
 ### 方法一：使用docker（推荐）：
