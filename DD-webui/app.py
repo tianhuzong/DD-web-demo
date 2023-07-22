@@ -4,6 +4,7 @@ import deepdanbooru as dd
 import json
 import base64
 import random
+import os
 app = Flask(__name__)
 model = dd.project.load_model_from_project("./model")
 tags = dd.data.load_tags("./model/tags.txt")
@@ -20,7 +21,7 @@ def upload():
     yz : int =0.5 #生成的标签可信度阈值
     random.seed()
     rand = random.randint(7,27053667326596)
-    imagepath = "./photo/" + rand
+    imagepath = "./photo/" + str(rand) + os.path.splitext(file.filename)[1]
     file.save(imagepath)
     
     markdict : dict = DD_tools.get_mark(imagepath,model,tags,yz,True)
@@ -38,7 +39,7 @@ def api_upload():
     pic_bytes = base64.b64encode(pic_b64)
     random.seed()
     rand = random.randint(7,27053667326596)
-    imagepath = "./apiphoto/" + str(rand) + geshi
+    imagepath = "./apiphoto/" + str(rand) + "." + geshi
     with open(imagepath,mode="wb") as f:
         f.write(pic_bytes)
     yz : int = 0.5 #生成的标签可信度阈值
