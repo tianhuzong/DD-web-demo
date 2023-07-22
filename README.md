@@ -110,22 +110,26 @@ python app.py
 或者设置环境变量``FLASK_APP=app.py``，然后运行
 ```bash
 flask run
-//有写电脑/服务器可能会报错，推荐使用
+//有些电脑/服务器可能会报错，推荐使用
 python -m flask run
 ```
 当你看到以下图片
 ![成功的终端图片](redme_pic/local_success.png)
+
 那就说明你已经成功啦!
 然后访问http://127.0.0.1:5000
 界面大概长这样：
 ![成功的网站图片](redme_pic/website_sussess.png)
-因为本人画画并不是很好ui比较捡漏，还请谅解。
+
+因为本人画画并不是很好ui比较简陋，还请谅解。
 ### 部署uWSGI
 你在直接运行flask程序时是不是看到了以下警告：
 ![uWSGI-warning](redme_pic/uWSGI_warning.png)
+
 **本人英文不是很好，我认为要部署WSGI服务器就对了**
 
 **经过测试，Windows貌似不可以使用uwsgi，可以选择使用其他wsgi服务器，不然就乖乖使用docker吧**
+
 说干就干，我在requirements.txt中已经加入了uwsgi库的安装了，看不懂的可以参考[菜鸟教程-uwsgi](https://www.runoob.com/python3/python-uwsgi.html)
 在docker中我已经部署了uwsgi了，我就不做演示
 #### 方法一：
@@ -144,10 +148,12 @@ uwsgi --socket 127.0.0.1:5000 --wsgi-file app.py --callable app --processes 4 --
 有时候一直要上网站访问，实在是太麻烦了，索性就搞了一个API，但是我没有写什么token还是QPS机制，所以还麻烦各位开发者多多费心了。
 API地址：``你的域名/api/upload``
 与网页上上传的不同的是，这个API支持get和post
-|参数名称|释义|
+|参数名称|参数说明|
 |---|---|
 |pic|图片数据，将文件的二进制数据转为base64编码|
-|kuozhanming|文件扩展名，jpg或png，不要带``.``，带了``.``或者释义其他格式会返货{"msg":"error"}
+|kuozhanming|文件扩展名，jpg或png，不要带``.``，带了``.``或者是其他格式会返回{"msg":"error"}
+
+
 易语言的用户可以使用``读入文件()``将图片转为字节集数据，再使用精易模块把字节集数据转为base64编码，然后再使用精易模块的``网页_访问S（）``
 python的用户可以使用base64模块
 ```python
@@ -167,7 +173,8 @@ res = requests.post(url,data=data)
 **其他语言的用户可以使用[CodeGeeX](https://github.com/THUDM/CodeGeeX)把代码翻译成其他语言**
 
 ## 部署web服务器
-在你体验完这个网站后，想要把它暴露到公网以便自己在其他地方使用或者你做了修改想给其他用户使用，那么你可以选择部署web服务器，但前提是你得拥有一台服务器
+在你体验完这个网站后，想要把它暴露到公网以便自己在其他地方使用或者你做了修改想给其他用户使用，那么你可以选择部署web服务器，但前提是你得拥有一台服务器。
+
 nginx是一个比较有名的web服务器，安装也比较简单，可以参考[菜鸟教程-nginx教程](https://www.runoob.com/w3cnote/nginx-install-and-config.html)，部署在云端环境，本人还是推荐使用docker，免得图片上传接口被攻击
 
 我们的NGINX就不能使用docker部署了，因为我们前面的docker镜像只能有一个docker基础镜像，没办法使用yum或apt等包管理器，而不同的容器是沙箱隔离的，如果你有办法的话欢迎创建issue讨论。
@@ -217,6 +224,12 @@ example.com换成你的域名，记得要解析到服务器上哦
 
 ## 结语
 本程序基于Deepdanbooru开发而成
+
+请不要用于非法用途
+
+后果自负
+
+
 本人新手上路，可能有什么错误没有，或者测试的还不完全
 如果发现错误的朋友请在issue中提出，谢谢
 
