@@ -31,9 +31,11 @@ def api_upload():
     if request.method == "GET":
         pic_b64 = request.args.get("pic")
         geshi = request.args.get("kuozhanming")
+        yz = request.args.get("yz")
     elif request.method == "POST":
         pic_b64 = request.form.get("pic")
         geshi = request.form.get("kuozhanming")
+        yz = request.form.get("yz")
     if geshi not in ["png","jpg"]:
         return json.dumps({"msg":"error"})
     pic_bytes = base64.b64encode(pic_b64)
@@ -42,7 +44,7 @@ def api_upload():
     imagepath = "./apiphoto/" + str(rand) + "." + geshi
     with open(imagepath,mode="wb") as f:
         f.write(pic_bytes)
-    yz : int = 0.5 #生成的标签可信度阈值
+    yz : int  #生成的标签可信度阈值
     markdict : dict = DD_tools.get_mark(imagepath,model,tags,yz,True)
     return json.dumps(markdict)
 if __name__ == "__main__":
