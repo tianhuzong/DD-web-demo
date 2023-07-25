@@ -32,10 +32,14 @@ def api_upload():
         pic_b64 = request.args.get("pic")
         geshi = request.args.get("kuozhanming")
         yz = request.args.get("yz")
+        if not pic_b64 or not geshi or not yz:
+            return json.dumps({"msg":"错误，参数不完整"})
     elif request.method == "POST":
         pic_b64 = request.form.get("pic")
         geshi = request.form.get("kuozhanming")
         yz = request.form.get("yz")
+        if not pic_b64 or not geshi or not yz:
+            return json.dumps({"msg":"错误，参数不完整"})
     if geshi not in ["png","jpg"]:
         return json.dumps({"msg":"error"})
     pic_bytes = base64.b64encode(pic_b64)
