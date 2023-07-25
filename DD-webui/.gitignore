@@ -7,11 +7,5 @@ test.py
 /uploads
 /build
 /deepdanbooru.egg-info
-*.jpg
-*.jpeg
-*.png
 *.bmp
 *.gif
-*.h5
-*.txt
-*.json
