@@ -42,7 +42,7 @@ def api_upload():
             return json.dumps({"msg":"错误，参数不完整"})
     if geshi not in ["png","jpg"]:
         return json.dumps({"msg":"error"})
-    pic_bytes = base64.b64encode(pic_b64)
+    pic_bytes = base64.b64decode(pic_b64)
     random.seed()
     rand = random.randint(7,27053667326596)
     imagepath = "./apiphoto/" + str(rand) + "." + geshi
