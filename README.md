@@ -165,8 +165,8 @@ with open("/path/to/image.png",mode="rb") as f:
     pic = f.read()
 pic_b64 = base64.b64encode(pic).decode()
 data = {
-    pic:pic_b64,
-    kuozhanming : "png"
+    "pic":pic_b64,
+    "kuozhanming" : "png"
 }
 res = requests.post(url,data=data)
 #虽然说支持get，但使用post还是比较安全，不会受url长度限制
