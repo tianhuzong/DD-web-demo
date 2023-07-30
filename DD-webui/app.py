@@ -37,7 +37,7 @@ def api_upload():
     elif request.method == "POST":
         pic_b64 = request.form.get("pic")
         geshi = request.form.get("kuozhanming")
-        yz = request.form.get("yz")
+        yz = float(request.form.get("yz"))
         if not pic_b64 or not geshi or not yz:
             return json.dumps({"msg":"错误，参数不完整"})
     if geshi not in ["png","jpg"]:
