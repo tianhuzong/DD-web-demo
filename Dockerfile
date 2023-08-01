@@ -18,4 +18,5 @@ RUN rm ./setup.py
 # 删除 setup.cfg 文件
 RUN rm ./setup.cfg
 ENV FLASK_APP=app.py
-CMD ["uwsgi","--socket","127.0.0.1:5000","--wsgi-file","app.py","--callable","app","--processes","4","--threads","2","--stats","127.0.0.1:9191"]
+CMD ["flask","run","--host=0.0.0.0"]
+#CMD ["uwsgi","--socket","127.0.0.1:5000","--wsgi-file","app.py","--callable","app","--processes","4","--threads","2","--stats","127.0.0.1:9191"]

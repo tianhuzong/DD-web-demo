@@ -122,7 +122,7 @@ python -m flask run
 ![成功的网站图片](redme_pic/website_sussess.png)
 
 因为本人画画并不是很好ui比较简陋，还请谅解。
-### 部署uWSGI
+### 部署uWSGI(暂不可用，请不要尝试)
 你在直接运行flask程序时是不是看到了以下警告：
 ![uWSGI-warning](redme_pic/uWSGI_warning.png)
 
