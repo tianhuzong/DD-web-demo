@@ -54,9 +54,9 @@ git clone https://gitee.com/thzsen/DD-web-demo.git
 
 Linux终端可以直接运行：
 ```bash
-wget "https://github.com/KichangKim/DeepDanbooru/releases/download/v3-20211112-sgd-e28/deepdanbooru-v3-20211112-sgd-e28.zip" -O models.zip
-
 cd DD-web-demo/DD-webui/model
+
+wget "https://github.com/KichangKim/DeepDanbooru/releases/download/v3-20211112-sgd-e28/deepdanbooru-v3-20211112-sgd-e28.zip" -O models.zip
 
 unzip models.zip 
 ```
