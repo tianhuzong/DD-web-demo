@@ -52,6 +52,15 @@ git clone https://gitee.com/thzsen/DD-web-demo.git
 ## 预训练模型下载
 可以在[DD作者的发行版](https://github.com/KichangKim/DeepDanbooru/releases/tag/v3-20211112-sgd-e28)下载，然后把解压后的文件夹里的文件覆盖DD-web-demo/DD-webui/model内的文件。
 
+Linux终端可以直接运行：
+```bash
+wget "https://github.com/KichangKim/DeepDanbooru/releases/download/v3-20211112-sgd-e28/deepdanbooru-v3-20211112-sgd-e28.zip" -O models.zip
+
+cd DD-web-demo/DD-webui/model
+
+unzip models.zip 
+```
+
 ## 运行程序
 ### 方法一：使用docker（推荐）：
 克隆仓库，下载预训练模型后，打开docker终端，进入DD-web-demo目录，可以看到该目录下有个Dockerfile，不懂怎么修改请按照作者的原配置即可，懂的话可以适当自己修改
