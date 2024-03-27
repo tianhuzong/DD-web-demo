@@ -10,7 +10,7 @@ EXPOSE 5000
 EXPOSE 9191
 # 安装依赖项
 RUN pip install --no-cache-dir -r requirements.txt
-RUN python setup.py install --no-cache-dir
+RUN python setup.py install
 RUN python -c "import deepdanbooru; print('deepdanbooru 包导入成功')"
 RUN rm -rf ./deepdanbooru
 # 删除 setup.py 文件
