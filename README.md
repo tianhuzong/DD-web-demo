@@ -9,6 +9,7 @@ QQ：[1485319167](http://wpa.qq.com/msgrd?v=3&uin=1485319167&site=qq&menu=yes)
 ## DD-webui:Deepdanbooru网页封装版
 
 DD-webui是一个基于[Deepdanbooru](https://github.com/KichangKim/DeepDanbooru)（以下简称DD）封装的工具，采用Flask框架编写而成，根据DD的作者文档中的内容，需要python3.7+才能运行。由于DD的作者制作的在线工具服务器在国外，访问的速度较慢，所以DD-web-demo就此诞生了。
+**2.0版本开始，我们取消了对deepdanbooru的依赖，但是仍然采用deepdanbooru的模型**
 DD-webui有以下优势：
 * **操作简易**：克隆仓库后可直接使用，无需过多设置，全程无坑
 * **支持本地化部署**：不需要将图片上传到别人的服务器，本地直接加载预训练模型，节省上传到云端的时间，可以避免由于网络不稳定引起的错误
