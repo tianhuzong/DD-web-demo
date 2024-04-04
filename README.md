@@ -17,6 +17,10 @@ DD-webui有以下优势：
 
 **在运行这个程序时提前加载了预训练模型，节省了生成tag的时间，本地部署响应速度会远远高于访问DD作者制作的demo**
 
+### 版本更新
+2.0版本
+* 简化了源码包,删除了整个deepdanbooru的包,直接采用TensorFlow和TensorFlow-io等进行编写,大大减小了源码包的大小
+
 ## 许可证
 
 本软件基于MIT开源协议进行授权和分发。
@@ -89,6 +93,8 @@ docker run -p 5000:5000 ddwebui
 ## 方法二：直接运行
 直接运行适用于测试环境或开发环境，因为直接运行少了docker沙箱机制的保护，可能会受到恶意代码的攻击，请不要用这个办法部署生产环境。
 
+**注意: 在某些系统因为CPU指令集不支持,直接运行可能会失败,所以建议使用docker部署,或者使用conda安装**
+
 克隆仓库，下载预训练模型后直接进入DD-web-demo/DD-webui
 
 ### 创建虚拟环境
@@ -109,9 +115,7 @@ source venv/bin/activate
 ### 安装依赖
 ```bash
 pip install -r requirements.txt
-pip install .
 ```
-运行完可以删除deepdanbooru文件夹和setup.py的文件
 ### 运行主程序
 ```bash 
 python app.py
@@ -138,9 +142,7 @@ python -m flask run
 **本人英文不是很好，我认为要部署WSGI服务器就对了**
 
 **经过测试，Windows貌似不可以使用uwsgi，可以选择使用其他wsgi服务器，不然就乖乖使用docker吧**
-
-说干就干，我在requirements.txt中已经加入了uwsgi库的安装了，看不懂的可以参考[菜鸟教程-uwsgi](https://www.runoob.com/python3/python-uwsgi.html)
-在docker中我已经部署了uwsgi了，我就不做演示
+**Gunicorn也是一个不错的wsgi服务器,打包也只支持linux**
 #### 方法一：
 在菜鸟教程中，是直接运行一行命令的：
 ```bash

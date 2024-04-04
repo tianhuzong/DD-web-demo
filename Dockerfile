@@ -9,14 +9,7 @@ EXPOSE 5000
 #uWSGI统计信息端口
 EXPOSE 9191
 # 安装依赖项
-RUN pip install --no-cache-dir -r requirements.txt
-RUN python setup.py install --no-cache-dir
-RUN python -c "import deepdanbooru; print('deepdanbooru 包导入成功')"
-RUN rm -rf ./deepdanbooru
-# 删除 setup.py 文件
-RUN rm ./setup.py
-# 删除 setup.cfg 文件
-RUN rm ./setup.cfg
+RUN pip install --no-cache-dir -r requirements.txt -i https://mirror.tencnt.com/pypi/simple
 ENV FLASK_APP=app.py
 CMD ["flask","run","--host=0.0.0.0"]
 #CMD ["uwsgi","--socket","127.0.0.1:5000","--wsgi-file","app.py","--callable","app","--processes","4","--threads","2","--stats","127.0.0.1:9191"]

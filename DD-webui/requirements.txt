@@ -5,4 +5,3 @@ tensorflow-io>=0.22.0
 requests>=2.22.0
 flask
 requests
-beautifulsoup4

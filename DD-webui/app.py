@@ -1,13 +1,14 @@
-from flask import Flask,render_template,request
+﻿from flask import Flask,render_template,request
 import DD_tools
-import deepdanbooru as dd
+
+import tensorflow as tf
 import json
 import base64
 import random
 import os
 app = Flask(__name__)
-model = dd.project.load_model_from_project("./model")
-tags = dd.data.load_tags("./model/tags.txt")
+model = tf.keras.models.load_model("/workspace/DD-web-demo/DD-webui/model/model-resnet_custom_v3.h5", compile=False)
+tags = DD_tools.load_tags("./model/tags.txt")
 @app.route("/")
 def index():
     return render_template("index.html")
