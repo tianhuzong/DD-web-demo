@@ -184,7 +184,13 @@ data = {
 res = requests.post(url,data=data)
 #虽然说支持get，但使用post还是比较安全，不会受url长度限制
 ```
-**其他语言的用户可以使用[CodeGeeX](https://github.com/THUDM/CodeGeeX)把代码翻译成其他语言**
+
+## 命令行程序
+在`DD-web-demo/DD-webui/`下有一个cli.py,运行方法
+```bash
+python cli.py predict photo_path # 将photo替换为图片路径
+```
+**小提示:可能TensorFlow会输出很多警告信息,不必理会,直接查看最后的结果就好**
 
 ## 部署web服务器
 在你体验完这个网站后，想要把它暴露到公网以便自己在其他地方使用或者你做了修改想给其他用户使用，那么你可以选择部署web服务器，但前提是你得拥有一台服务器。
