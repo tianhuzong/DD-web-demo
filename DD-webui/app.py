@@ -7,7 +7,7 @@ import base64
 import random
 import os
 app = Flask(__name__)
-model = tf.keras.models.load_model("/workspace/DD-web-demo/DD-webui/model/model-resnet_custom_v3.h5", compile=False)
+model = tf.keras.models.load_model("./model/model-resnet_custom_v3.h5", compile=False)
 tags = DD_tools.load_tags("./model/tags.txt")
 @app.route("/")
 def index():
